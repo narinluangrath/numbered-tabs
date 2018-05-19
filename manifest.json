@@ -1,5 +1,5 @@
   {
-    "name": "Tabs",
+    "name": "Numbered Tabs",
     "version": "0.2.0",
     "description": "Add a numeric prefix before the tab's title.",
      "background": {
