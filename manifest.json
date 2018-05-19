@@ -1,11 +1,11 @@
   {
     "name": "Tabs",
-    "version": "1.0",
+    "version": "0.2.0",
     "description": "Add a numeric prefix before the tab's title.",
      "background": {
       "scripts": ["background.js"],
       "persistent": false
     },
     "manifest_version": 2,
-    "permissions": [ "http://*/*", "https://*/*", "tabs", "storage" ]
+    "permissions": [ "tabs", "<all_urls>" ]
   }
