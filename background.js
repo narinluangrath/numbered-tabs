@@ -37,7 +37,7 @@ function updateTab( tab ) {
 	}
 
   /* logic for redoing title with numeric prefix */
-	const prefix = /[0-9]+. /g
+	const prefix = /^[0-9]+. /g
 	const hasPrefix = prefix.exec( title )
 	let newTitle = `${index + 1}. `
 	if ( hasPrefix && hasPrefix[0] && hasPrefix[0] === newTitle ) {
