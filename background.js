@@ -1,8 +1,9 @@
 /* Add listeners for tabs */
 
-const tabs = chrome.tabs 
+const tabs = chrome.tabs
+
 tabs.onCreated.addListener( function( tab ) {
-	updateTab( tab )
+	updateAllTabs()
 })
 tabs.onUpdated.addListener( function( tabId, changeInfo, tab ) {
 	updateAllTabs()
@@ -26,32 +27,40 @@ tabs.onRemoved.addListener( function( tabId, removeInfo ) {
  * according to tab's position relative to other tabs. If the 
  * prefix already exists, update it to make sure it's accurate.
  * @param {Tab} tab - a [Chrome API Tab object](https://developer.chrome.com/extensions/tabs#type-Tab)  
+ * @param {Tab[]} allTabs - all the other tabs (including tabs in different windows)
  */
 
-function updateTab( tab ) {
-	const { id, index, url, title } = tab
+function updateTab( tab, allTabs ) {
+	const { id, index, url, title, windowId } = tab
 
 	if ( url.startsWith( 'chrome://' ) ) {
 		// not allowed to modify browser settings pages
 		return 
 	}
 
+	// get the number of tabs in this tab's window
+	const numTabs = Math.max( ...allTabs.filter( t => t.windowId == windowId ).map( t => t.index ) ) + 1
+
   /* logic for redoing title with numeric prefix */
-	const prefix = /^[0-9]+. /g
-	const hasPrefix = prefix.exec( title )
-	let newTitle = `${index + 1}. `
-	if ( hasPrefix && hasPrefix[0] && hasPrefix[0] === newTitle ) {
+	const prefixRegEx = /^[0-9-]+. /g
+	const num = index + 1
+	let newPrefix = num <= 8 ? `${num}. ` :
+					        num >= 9 && num === numTabs ? '9. ' :
+					        '-. '
+
+	const hasPrefix = prefixRegEx.exec( title )
+	if ( hasPrefix && hasPrefix[0] && hasPrefix[0] === newPrefix ) {
 		return // title is already correctly prefixed
 	} else if ( hasPrefix ) {
 		// title has incorrect prefix (tab moved)
-		newTitle += title.split( prefix )[1]
+		newPrefix += title.split( prefixRegEx )[1]
 	} else {
 		// title has no prefix (new tab)
-		newTitle += title
+		newPrefix += title
 	}
 
 	try {
-		const script = { code : `document.title = '${newTitle}'` }
+		const script = { code : `document.title = '${newPrefix}'` }
 		chrome.tabs.executeScript( id, script )
 	} catch ( e ) {
 		console.error( e )
@@ -72,7 +81,7 @@ function getAllTabs( cb ) {
  */
 
 function updateAllTabs( ) {
-	const cb = tabs => tabs.forEach( updateTab )
+	const cb = tabs => tabs.forEach( tab => updateTab( tab, tabs ) )
 	getAllTabs( cb )
 }
 
