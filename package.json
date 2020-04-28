@@ -10,5 +10,9 @@
   "devDependencies": {
     "archiver": "^4.0.1",
     "chrome-webstore-upload": "^0.2.2"
+  },
+  "engines": {
+    "node": "^12.10.0",
+    "yarn": "^1.22.0"
   }
 }
