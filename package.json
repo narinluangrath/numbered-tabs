@@ -1,6 +1,6 @@
 {
   "name": "numbered-tabs",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Chrome extension to add numeric prefix in title",
   "main": "src/background.js",
   "repository": "https://github.com/narinluangrath/numbered-tabs.git",

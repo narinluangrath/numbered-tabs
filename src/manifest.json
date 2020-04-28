@@ -1,11 +1,11 @@
-  {
-    "name": "Numbered Tabs",
-    "version": "0.2.1",
-    "description": "Add a numeric prefix before the tab's title.",
-     "background": {
-      "scripts": ["background.js"],
-      "persistent": false
-    },
-    "manifest_version": 2,
-    "permissions": [ "tabs", "<all_urls>" ]
-  }
+{
+  "name": "Numbered Tabs",
+  "version": "0.2.2",
+  "description": "Add a numeric prefix before the tab's title.",
+   "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "manifest_version": 2,
+  "permissions": [ "tabs", "<all_urls>" ]
+}
