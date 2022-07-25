@@ -60,7 +60,7 @@ function updateTab( tab, allTabs ) {
 	}
 
 	try {
-		const script = { code : `document.title = '${newPrefix}'` }
+		const script = { code : `document.title = ${newPrefix}` }
 		chrome.tabs.executeScript( id, script )
 	} catch ( e ) {
 		console.error( e )
